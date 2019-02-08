@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://stemwijzer.dvc-icta.nl/data.js"></script>		
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">	
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<title>Stemwijzer</title>
+</head>
+<body onload="loadIntro()">
+	<div id="background"></div>
+	<section>
+		<button id="back-btn" onclick="back()"><i class="fas fa-long-arrow-alt-left"></i></button>
+		<div id="intro">
+			<img id="title-img" src="./img/stemwijzer.png">
+			<button class="btn" onclick="loadStatements()">Start</button>
+		</div>
+		<div id="statements">
+			<h2 id="statement-title"></h2>
+			<p id="statement"></p>		
+			<button class="btn" id="pro" onclick="setChoice('pro')">Eens</button>
+			<button class="btn" id="ambivalent" onclick="setChoice('ambivalent')">Geen van beide</button>
+			<button class="btn" id="contra" onclick="setChoice('contra')">oneens</button>
+			<button id="skip-btn" onclick="setChoice('')">Sla deze vraag over <i class="fas fa-long-arrow-alt-right"></i></button>
+		</div>		
+	</section>
+	<script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
+	<script src="js/logic.js"></script>
+</body>
+</html>

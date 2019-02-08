@@ -1,11 +1,10 @@
-#background{
-	
+#background{	
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: -1;	
-	background-image: url("./img/kabinetkamer.jpg");
+	background-image: url("../img/kabinetkamer.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 100%;
@@ -17,27 +16,41 @@ section{
 	margin: auto;
 	margin-top: 30px;
 	background-color: white;
-	width: 80%;
-	height: 100%;
+	width: 1200px;
+	height: 650px;
 	border-radius: 11px;
 	border: 1px solid black;
 
 }
 #title-img{
-	margin: 150px;
+	margin: 140px;
 }
 
-button{
+.btn{
 	width: 200px;
 	height: 75px;	
 	background: #000000;
+	border: 1px solid black;
 	border-radius: 11px;	
 	color: #ffffff;
 	font-size: 22px;
-	
-	
-	
 }
-  
+ 
+#back-btn{
+	margin: 10px;
+	border-radius: 50%;
+	font-size: 50px;
+
+}
+
+#skip-btn{
+	margin-left: 50px;
+	width: 300px;
+	height: 75px;	
+	background: white;
+	border: 1px solid white;	
+	color: grey;
+	font-size: 22px;
+}
   
 
