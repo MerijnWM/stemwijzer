@@ -33,7 +33,11 @@
 
 		<div id="chooseParties">
 			<h2>Welke partijen wilt u meenemen in het resultaat?</h2>
-			<ul id="parties-ul"></ul>
+			<ul id="parties-ul">
+				<input type="radio" name="filter_choice" class="filter_choice">Alle grote partijen</input>
+				<input type="radio" name="filter_choice" class="filter_choice">Alle seculiere partijen</input>
+				<input type="radio" name="filter_choice" class="filter_choice" checked>Alle partijen</input>
+			</ul>
 			<button class="btn" onclick="loadScore()">Naar Resultaat</button>
 		</div>	
 

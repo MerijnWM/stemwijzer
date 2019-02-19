@@ -11,7 +11,7 @@ var parties_ul = document.getElementById('parties-ul');
 var statement_count = 0;
 var opinions = [];
 var results = [];
-var filter_results = [];
+var points = 0;
 
 function loadIntro(){
 	statements.style.display = 'none';
@@ -22,17 +22,7 @@ function loadIntro(){
 	chooseParties.style.display = 'none';
 }
 
-function loadStatements() {
-	chooseStatements.style.display = 'none';
-	chooseParties.style.display = 'none';
-	score.style.display = 'none';
-	intro.style.display = 'none';
-	back_btn.style.display = 'block';
-	statements.style.display = 'block';
-	statement_title.innerHTML = statement_count + 1 + '.' + subjects[statement_count].title;
-	statement.innerHTML = subjects[statement_count].statement;
-	
-	//set background to grey of selected choice
+function showSelectedOpinions(){
 	var btn = document.getElementsByClassName('btn');
 	for (var i = 0; i < btn.length; i++) {
         btn[i].style.backgroundColor = "black";
@@ -42,6 +32,19 @@ function loadStatements() {
 		var btn = document.getElementById(opinions[statement_count]);
 		btn.style.backgroundColor = 'grey';
 	}
+}
+
+function loadStatements() {
+	chooseStatements.style.display = 'none';
+	chooseParties.style.display = 'none';
+	score.style.display = 'none';
+	intro.style.display = 'none';
+	back_btn.style.display = 'block';
+	statements.style.display = 'block';
+	statement_title.innerHTML = statement_count + 1 + '.' + subjects[statement_count].title;
+	statement.innerHTML = subjects[statement_count].statement;	
+
+	showSelectedOpinions();	
 }
 
 function setChoice(opinion){
@@ -92,35 +95,11 @@ function loadChooseParties(){
 	score.style.display = 'none';
 	chooseParties.style.display = 'block';
 	back_btn.setAttribute("onclick", "loadChooseStatements()");
-
-	//display all parties
-	if(parties_ul.childNodes.length == 0){
-		for(var index = 0; index < parties.length; ++index ){		
-			var input = document.createElement("input");
-			var label = document.createElement("label");
-			parties_ul.appendChild(label);
-			parties_ul.appendChild(input);
-			input.setAttribute("type", "checkbox");	
-			input.setAttribute("value", parties[index].name);
-			input.setAttribute("id", "parties");
-			input.setAttribute("checked", "checked");
-			input.style.display = 'block';			
-			label.innerHTML = parties[index].name;				
-		}
-	}	
 }
 
-function loadScore(){
-	var score = document.getElementById('score');
-	var points = 0;
-	var parties = document.querySelectorAll('input[id=parties]');
+function calculateResult(){
 	var statement_titles = document.querySelectorAll('input[id=statements]');
-
-	chooseParties.style.display = 'none';
-	score.style.display = 'block';
-	back_btn.setAttribute("onclick", "loadChooseParties()");
-	
-	//calculate score
+	points = 0;
 	for(var y = 0; y < opinions.length; ++y ){		
 
 		if(opinions[y] != ""){
@@ -131,34 +110,79 @@ function loadScore(){
 				points +=1;
 			}
 
-			for (var i = 0; i < parties.length; ++i ){		
-				
-				if(opinions[y] == subjects[y].parties[i].position ){
+			for (var i = 0; i < parties.length; ++i ){	
 
-					if(results[subjects[y].parties[i].name] == null){
-						results[subjects[y].parties[i].name] = sum; 
+				if(results.length != parties.length){
+					if(opinions[y] == subjects[y].parties[i].position ){
+						results[i] = {name : subjects[y].parties[i].name , total : 1}
 					}else{
-						results[subjects[y].parties[i].name] += sum;
-					}	
-				}
+						results[i] = {name : subjects[y].parties[i].name , total : 0}
+					}
+				}else{
+					if(opinions[y] == subjects[y].parties[i].position ){
+
+						for (var x = 0; x < results.length; ++x ){	
+
+							if(subjects[y].parties[i].name == results[x].name){
+
+								results[x].total += sum;						
+								
+							}
+						}	
+					}
+				}				
 			}	
 		}		
 	}	
+	console.log(results);
+}
 
-	// filter result by parties
-	for(var x = 0; x < parties.length; ++x ){
-		if (parties[x].checked == true ) {
-			
-			 filter_results[x] = [parties[x].defaultValue , results[parties[x].defaultValue]];			 
-		}
+function filterResult(){
+	var filter_choice = document.querySelectorAll('input[class=filter_choice]');
+	//filter by size
+	if (filter_choice[0].checked == true ) {			
+		for(var y = 0; y < parties.length; ++y ){
+			if (parties[y].size == 0) {
+
+				for(var i = 0; i < results.length; ++i){
+					if(parties[y].name == results[i].name){
+						results.splice(i, 1);						
+					}
+				}
+			}			
+		}			 
 	}
+	//filter by secular or not
+	else if(filter_choice[1].checked == true){
+		for(var y = 0; y < parties.length; ++y ){
+			if (parties[y].secular != true) {
 
-	//sort result by best choice
-	var sort_results = filter_results.slice(0);
-	sort_results.sort(function(a,b) {
-	    return  b[1] - a[1];
-	});
+				for(var i = 0; i < results.length; ++i){
+					if(parties[y].name == results[i].name){
+						results.splice(i, 1);
+					}
+				}
+			}			
+		}		
+	}	
+}
 
+function sortResult(	){	
+
+  	results.sort(function(a, b){return b.total - a.total});	
+}
+
+function loadScore(){
+	var score = document.getElementById('score');
+	
+	chooseParties.style.display = 'none';
+	score.style.display = 'block';
+	back_btn.setAttribute("onclick", "loadChooseParties()");
+
+	calculateResult();
+	filterResult();
+	sortResult();	
+	
 	//make div score empty
 	while (score.firstChild) {
 	    score.removeChild(score.firstChild);
@@ -169,10 +193,10 @@ function loadScore(){
 	score.appendChild(h2);
 	h2.innerHTML = "Uw mening komt het best overeen met:";
 
-	sort_results.forEach(function(sort_result){
+	results.forEach(function(sort_result){
 		var p = document.createElement("p");
 		score.appendChild(p);
-		p.innerHTML = sort_result[0] + " " + sort_result[1] + "/" + points;
+		p.innerHTML = sort_result.name + " " + sort_result.total + "/" + points;
 	});
 }
 
