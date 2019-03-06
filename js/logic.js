@@ -134,7 +134,6 @@ function calculateResult(){
 			}	
 		}		
 	}	
-	console.log(results);
 }
 
 function filterResult(){
@@ -188,7 +187,7 @@ function loadScore(){
 	    score.removeChild(score.firstChild);
 	}
 
-	//display ordered and filtered score 
+	//display ordered and filtered result 
 	var h2 = document.createElement("h2");
 	score.appendChild(h2);
 	h2.innerHTML = "Uw mening komt het best overeen met:";

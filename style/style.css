@@ -13,17 +13,18 @@
 }
 
 section{
+	padding: 50px;
 	margin: auto;
 	margin-top: 30px;
 	background-color: white;
 	width: 1200px;
-	height: 1250px;
+	height: inherit;
 	border-radius: 11px;
 	border: 1px solid black;
 
 }
 #title-img{
-	margin: 140px;
+	margin: 100px;
 }
 
 .btn{
@@ -34,6 +35,7 @@ section{
 	border-radius: 11px;	
 	color: #ffffff;
 	font-size: 22px;
+	margin-bottom: 50px;
 }
  
 #back-btn{
