@@ -101,7 +101,6 @@ function calculateResult(){
 	var statement_titles = document.querySelectorAll('input[id=statements]');
 	points = 0;
 	for(var y = 0; y < opinions.length; ++y ){		
-
 		if(opinions[y] != ""){
 			var sum = 1;
 			points +=1;
@@ -111,14 +110,18 @@ function calculateResult(){
 			}
 
 			for (var i = 0; i < parties.length; ++i ){	
-
+				//set first value for every party
 				if(results.length != parties.length){
+
 					if(opinions[y] == subjects[y].parties[i].position ){
-						results[i] = {name : subjects[y].parties[i].name , total : 1}
+
+						results[i] = {name : subjects[y].parties[i].name , total : sum}
 					}else{
-						results[i] = {name : subjects[y].parties[i].name , total : 0}
+						
+						results[i] = {name : subjects[y].parties[i].name , total : 0}						
 					}
 				}else{
+					// add value by party
 					if(opinions[y] == subjects[y].parties[i].position ){
 
 						for (var x = 0; x < results.length; ++x ){	
